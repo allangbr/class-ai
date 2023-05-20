@@ -43,16 +43,20 @@ class Grid:
         """
         """
         content = []
+        obstacles = []
         for (i, j) in self.nodes:
             content.append("%d %s" % self.nodes[(i, j)])
+            if self.nodes[(i, j)][1].endswith(" (Obstacle)"):
+                obstacles.append(self.nodes[(i, j)][0])
         content.append('#')
         for (i, j, info) in self.edges:
+            if i in obstacles or j in obstacles:
+                continue
             content.append("%d %d %s" % (i, j, info))
         return '\n'.join(content)
-    
+
     def add_random_obstacles(self, num_obstacles):
         """
-        Adiciona obstáculos aleatórios ao grid.
         """
         width, height = self.dimension
         for _ in range(num_obstacles):
