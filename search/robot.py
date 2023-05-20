@@ -1,3 +1,6 @@
+import math
+import random
+
 class Grid:
     """
     """
@@ -46,10 +49,22 @@ class Grid:
         for (i, j, info) in self.edges:
             content.append("%d %d %s" % (i, j, info))
         return '\n'.join(content)
+    
+    def add_random_obstacles(self, num_obstacles):
+        """
+        Adiciona obstáculos aleatórios ao grid.
+        """
+        width, height = self.dimension
+        for _ in range(num_obstacles):
+            i = random.randint(1, width)
+            j = random.randint(1, height)
+            node = self.nodes[(i, j)][0]
+            self.nodes[(i, j)] = (node, "(%d,%d)" % (i, j) + " (Obstacle)")
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) > 2:
-        w, h = int(sys.argv[1]), int(sys.argv[2])
+    if len(sys.argv) > 3:
+        w, h, num_obstacles = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
         g = Grid(w, h)
+        g.add_random_obstacles(num_obstacles)
         print(g.to_tgf())
